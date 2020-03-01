@@ -8,7 +8,7 @@
 Очень удобно добавить в ~/.bashrc: `alias start_ise='source /opt/Xilinx/14.4/ISE_DS/settings64.sh > /dev/null`
 ```
 $ start_ise 
-$ ise & 
+$ ise 
 ```
 
 ## Заливка совта на ПЛИСы
