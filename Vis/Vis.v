@@ -10,9 +10,20 @@ wire [15:0] dat;
 wire clk;
 BUFG DD0 (.I(F50MHz), .O(clk));
 
+reg BTN0_r = 0;
+reg BTN0_2r = 0;
+
+always @(posedge clk)
+	begin
+		BTN0_r <= BTN0;
+		BTN0_2r <= BTN0_r;
+	end
+	
+wire BTN0_pulse = BTN0_r & !BTN0_2r;
+
 reg Q = 0;
 always @(posedge clk)
-	Q <= BTN0? !Q : Q;
+	Q <= BTN0_pulse? !Q : Q;
 
 //clk -- часы
 //dat -- 16-ти битное число
