@@ -46,3 +46,5 @@ Found 2 device(s):
 ```
 $ djtgcfg prog -d DOnbUsb -i 0 -f /path/to/bit/file.bit
 ```
+
+Для создания `file.mcs` можно воспользоваться вот [этой инструкцией](https://learn.digilentinc.com/Classroom/Tutorials/MCS%20File%20Creation%20with%20Xilinx%20ISE%20Tutorial.pdf)
