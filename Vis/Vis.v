@@ -1,5 +1,5 @@
 module Vis(
-	input F50MHz, 	output wire [3:0] AN , 
+	input F50MHz, 	output wire [3:0] AN, 
 	input [7:0]SW,	output wire [7:0] SEG,
 	input BTN0,		output wire [7:0] LED
 	);
@@ -25,27 +25,16 @@ reg Q = 0;
 always @(posedge clk)
 	Q <= BTN0_pulse? !Q : Q;
 	
-//reg [15:0] dat = 16'h0000;
-//reg [15:0] Dec_dat = 16'h0000;
-//Hex2Dec DD5( .I(SW), .O(Dec_dat), .clk(clk));
+reg [15:0] dat = 16'h0;
+wire [15:0] Dec_dat;
+Hex2Dec DD5( .I(SW), .O(Dec_dat), .clk(clk), .CE(Q));
 
-//always @(posedge clk)
-//	begin
-//		if (Q)
-//			dat[7:0] = SW;
-//		else
-//			dat = Dec_dat;
-//	end
+always @(posedge clk)
+	dat <= Q? Dec_dat : SW;
 
-//clk -- часы
-//dat -- 16-ти битное число
-//PTR -- точка разделитель
-//AN -- выбор, какую из 4 цифр дисплея использовать
-//SEG -- кодировка цифры для дисплея
-//se1ms -- CEO для дисплея
 DISPLAY DD6(
 	.clk(clk), .AN(AN),
-	.dat(SW), .SEG(SEG),
+	.dat(dat), .SEG(SEG),
 	.PTR(Q), .ce1ms(CE1MS)
 );
 

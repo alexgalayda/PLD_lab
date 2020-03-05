@@ -1,36 +1,16 @@
-`timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date:    10:09:44 02/21/2019 
-// Design Name: 
-// Module Name:    Gen_Nms_1s 
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
-// Description: 
-//
-// Dependencies: 
-//
-// Revision: 
-// Revision 0.01 - File Created
-// Additional Comments: 
-//
-//////////////////////////////////////////////////////////////////////////////////
-`define N 27 
-module Gen_Nms_1s (input clk, output wire CEO,
-						input ce, //ce1ms
-						input Tmod );
-parameter F1kHz =1000 ; //„астота 1 к√ц
+`define N 31 
+module Gen_Nms_1s (
+	input clk,	output wire CEO,
+	input ce, 
+	input Tmod
+);
+parameter F1kHz =1000 ;
+parameter F1Hz =1 ;
 
-parameter F1Hz =1 ; //„астота 1 √ц
-reg[9:0]cb_Nms = 0 ; //—четчик N миллисекунд
-wire[9:0]Nms = Tmod? `N : F1kHz/F1Hz ; //„исло дл€ делител€ частоты
-assign CEO = ce & (cb_Nms==1) ; //1 секунда или N миллисекунд
-
+reg [9:0] ct_Nms = 0;
+wire[9:0] Nms = Tmod? `N-1 : ((F1kHz/F1Hz)-1) ;
+assign CEO = ce & (ct_Nms==0) ;
 always @(posedge clk) if (ce) begin
-	cb_Nms <= (cb_Nms==1)? Nms : cb_Nms-1 ; //—чет N миллисекунд
+ct_Nms <= (ct_Nms==0)? Nms : ct_Nms-1 ;
 end
-
 endmodule

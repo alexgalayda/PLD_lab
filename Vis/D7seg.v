@@ -1,22 +1,3 @@
-`timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date:    09:12:27 02/21/2019 
-// Design Name: 
-// Module Name:    D7seg 
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
-// Description: 
-//
-// Dependencies: 
-//
-// Revision: 
-// Revision 0.01 - File Created
-// Additional Comments: 
-//
 module D7seg(input [3:0] dig, output wire [6:0] seg);
                               //gfedcba
 	assign seg = (dig==0)? 7'b1000000 : //0     a

@@ -1,57 +1,40 @@
 module Hex2Dec(
-	input [15:0]I, output reg [15:0]O,
-	input clk
+	input [15:0]I, output reg [15:0]O = 0,
+	input clk,
+	input CE
+);
+//output wire [15:0] B, output wire [3:0] TC, output wire [3:0] CEO,
+wire [3:0] CEO;
+wire [3:0] TC;
+wire [15:0] B;
+
+H2D DD1(
+	.I(I[3:0]), .O(B[3:0]),
+	.clk(clk), .ITC(0), .TC(TC[0]),
+	.CE(CE), .CEO(CEO[0])
 );
 
-reg [3:0] TC = 0;
+H2D DD2(
+	.I(I[7:4]), .O(B[7:4]),
+	.clk(clk), .ITC(TC[0]), .TC(TC[1]),
+	.CE(CEO[0]), .CEO(CEO[1])
+);
+
+H2D DD3(
+	.I(I[11:8]), .O(B[11:8]),
+	.clk(clk), .ITC(TC[1]), .TC(TC[2]),
+	.CE(CEO[1]), .CEO(CEO[2])
+);
+
+H2D DD4(
+	.I(I[15:12]), .O(B[15:12]),
+	.clk(clk), .ITC(TC[2]), .TC(TC[3]),
+	.CE(CEO[2]), .CEO(CEO[3])
+);
 
 always @(posedge clk)
-	begin
-		if (I[3:0] > 4'h1001)
-			begin
-				TC[0] <= 1;
-				O[3:0] <= I[3:0] - 4'h1010;
-			end
-		else
-			O[3:0] <= I;
-		//////////
-		if (TC[0])
-			begin
-				I[7:4] <= I[7:4] + 1;
-				TC[0] <= 0;
-			end
-		///////
-		if (I[7:4] > 4'h1001)
-			begin
-				TC[1] <= 1;
-				O[7:4] <= I[7:4] - 4'h1010;
-			end
-		else
-			O[7:4] <= I;
-		////////
-		if (TC[1])
-			begin
-				I[11:8] <= I[11:8] + 1;
-				TC[1] <= 0;
-			end
-		/////////
-		if (I[11:8] > 4'h1001)
-			begin
-				TC[0] <= 1;
-				O[11:8] <= I[11:8] - 4'h1010;
-			end
-		//////
-		if (TC[2])
-			begin
-				I[15:12] <= I[15:12] + 1;
-				TC[2] <= 0;
-			end
-		/////////
-		if (I[15:12] > 4'h1001)
-			begin
-				TC[3] <= 1;
-				O[15:12] <= I[15:12] - 4'h1010;
-			end
+	if (CEO[3]) begin
+		O <= B;
 	end
-
+	
 endmodule
