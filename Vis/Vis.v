@@ -5,7 +5,6 @@ module Vis(
 	);
 
 wire CE1MS;
-//wire [15:0] dat;
 
 wire clk;
 BUFG DD0 (.I(F50MHz), .O(clk));
@@ -26,8 +25,8 @@ always @(posedge clk)
 	Q <= BTN0_pulse? !Q : Q;
 	
 reg [15:0] dat = 16'h0;
-wire [15:0] Dec_dat;
-Hex2Dec DD5( .I(SW), .O(Dec_dat), .clk(clk), .CE(Q));
+wire [9:0] Dec_dat;
+Hex2Dec DD5( .bin(SW), .bcd(Dec_dat));
 
 always @(posedge clk)
 	dat <= Q? Dec_dat : SW;
