@@ -5,10 +5,10 @@ module VCBmCLED(input ce, output reg [`m-1:0] Q =0,
 						input L,
 						input clk,
 						input clr);
-assign TC = up? (Q==(1<<`m)-1) : (Q==0) ; /* åñëè up=1, òî TC=1 ïðè Q=2m-1, èíà÷å TC=1 ïðè Q=0 */
+assign TC = up? (Q==(1<<`m)-1) : (Q==0);
 assign CEO = ce & TC ;
 always @ (posedge clr or posedge clk) begin
-if (clr) Q <= 0; //àñèíõðîííûé ñáðîñ
+if (clr) Q <= 0;
 else Q <= L? di : (up & ce)? Q+1 : (!up & ce)? Q-1 : Q ;
 end
 endmodule
