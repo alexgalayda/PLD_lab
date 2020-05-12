@@ -4,5 +4,6 @@ Lab407/*
 Lab414/*
 Vis/*
 !*.v
+!*.V
 !*.ucf
 !*.pdf
